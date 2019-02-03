@@ -1,0 +1,13 @@
+lat	long	Nome	Genero	Cliente	QuantComprada
+-16.056207	-44.870800	Mica	Mas	Novo	10
+-8.072651	-34.897365	Pretinha	Fem Antigo	16
+-7.962290	-35.735544	Pandora	Fem	Antigo	30
+-10.666255	-52.022100	Tita	Fem	Antigo	37
+-10.566255	-52.922100	Tita	Fem	Antigo	37
+-9.666255	-53.022100	Tufa	Mas	Novo	37
+-10.066255	-51.022100	Dinheiro	Mas	Novo	37
+-10.966255	-50.022100	Branco	Mas	Antigo	37
+-11.666255	-53.922100	Pingo	Mas	Antigo	37
+-23.850905	-57.185674	Arcana	Mas	Antigo	50
+-19.212855	-66.172490	Dengoso	Mas	Antigo	20
+-19.912855	-65.172490	Sansao	Mas	Antigo	20

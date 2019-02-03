@@ -1,0 +1,22 @@
+# Adicionando linhas, eixos e legendas
+
+par(mar=c(1,1,1,1))
+map("world","Brazil")
+
+#Adicionando eixos
+map.axes(cex.axis=0.8)
+
+#adicionando uma linha na horizontal
+abline(h = -4, lty = 2) 
+
+#adicionando uma linha vertical
+abline(v = -50, lty = 2) 
+
+# Achando um ponto específico com base na h: latitude e   v=longitude
+abline(h = -8, lty = 2) 
+abline(v = -35, lty = 2) 
+
+
+#Adicionando escalas (retirando a escala de razão e deixando apenas a escala métrica)
+map.scale(ratio = F, cex = 0.6)
+

@@ -1,0 +1,13 @@
+
+
+
+install.packages("ggplot2", dependencies = T)
+library(ggplot2)
+
+#criando o shape como uma camada no fundo
+brazil <- ggplot() + borders("world", regions = "Brazil", fill = "yellow", colour = "black") + coord_equal()
+
+frança<- ggplot() + borders("world", regions = "france", fill = "black", colour = "black") + coord_equal()
+
+canada<- ggplot() + borders("world", regions = "canada", fill = "green", colour = "black") + coord_equal()
+

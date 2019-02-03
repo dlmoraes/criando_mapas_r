@@ -1,0 +1,153 @@
+dados saúde
+http://tabnet.datasus.gov.br/cgi/deftohtm.exe?pacto/2013/cnv/coapmunrj.def
+
+Malhas digitais:
+https://mapas.ibge.gov.br/bases-e-referenciais/bases-cartograficas/malhas-digitais.html
+
+    mUnicípio do Rio: ftp://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2013/RJ/
+
+
+
+
+#Aula 5
+
+#### MAPAS TEMÁTICOS PARTE 1
+
+Explicação:
+
+ 1- Malhas dos estados no RJ [2013]
+
+   https://mapas.ibge.gov.br/bases-e-referenciais/bases-cartograficas/malhas-digitais.html
+      (baixar, ler, tratar)
+  
+
+ 2 - Banco de Dados de interesse [2013]:  partos normais por município do estado do RJ
+     http://tabnet.datasus.gov.br/cgi/deftohtm.exe?pacto/2013/cnv/coapmunrj.def
+    (baixar, ler, tratar)
+
+ 3 - Relacionar os dois bancos (unir tudo em uma única tabela) por meio de uma chave
+
+  
+ 4 - Construir o Mapa temático no R usando o ggplot2
+
+
+
+#### PREPARANDO A MALHA: as malhas do estado do RJ, por município
+
+library(ggplot2)
+
+library(rgdal)
+
+  rj<-readOGR("C:/Users/Isaias/Documents/ISAIAS TRABALHO/Cursos/R/4 - Mapas usando o R/Aula 5", "33MUE250GC_SIR")
+
+
+#visualizar a base de dados georeferenciada 
+head(rj@data)
+
+#extraindo apenas os primeiros 6 dígitos e substituindo nela mesma
+rj$CD_GEOCMU<-substr(rj$CD_GEOCMU, 1, 6)
+
+
+
+
+
+
+### PREPARANDO A VARIÁVEL DE INTERESSE: os partos normais por município
+# Aula 6
+
+#Dados: % de partos normais   
+
+http://tabnet.datasus.gov.br/cgi/deftohtm.exe?pacto/2013/cnv/coapmunrj.def
+#retirei o cabeçalho e deixei apenas o nome das variáveis
+
+partos<-read.csv("C:/Users/Isaias/Documents/ISAIAS TRABALHO/Cursos/R/4 - Mapas usando o R/Aula 5/partos_normaisRJ.csv",sep=";",h=T,dec=",")
+head(partos)
+
+partos
+
+partos<-na.omit(partos)
+
+head(partos)
+
+names(partos)<-c("Município","PartosNormais")
+
+#perceba que partos tem DUAS linha a mais, depois de volta redonda, então vamos tirá-la
+partos<-partos[-(93:94),]
+
+#isolando o código do município como uma variável separada, chamada "CD_GEOCMU" (igual ao da malhas)
+partos$CD_GEOCMU<-substr(partos$Município, 1, 6)
+
+head(partos)
+
+
+
+#### JUNTANDO OS DOIS BANCOS
+
+# Aula 7
+head(rj@data)
+
+
+dim(partos)
+dim(rj@data)
+
+
+#Ordenando os bancos pela variável chave
+partos<- partos[order(partos$CD_GEOCMU), ] 
+malhas<-rj@data[order(partos$CD_GEOCMU), ]
+
+
+
+#Aula 8
+#perceba que temos o código do município no arquivo das malhas e 
+#no arquivo do data sus partos, então será a chave
+# Então: fazer a junção (merge) dos dois bancos através da chave sendo o Código do município
+
+rj_2 <- merge(malhas, partos,by.y="CD_GEOCMU") 
+
+head(rj_2)
+
+
+
+
+
+####### PLOTANDO O GRÁFICO
+#Aula 9
+
+
+# Extrai um data frame com coordenadas - variáveis: long  lat  order  hole  piece  group  id
+#Ou seja, para cada código do município ele vai pegar essas variáveis    # Loading required package: rgeos
+rj.f <- fortify(rj, region = "CD_GEOCMU") 
+
+
+#procurar na base de Malhas o nome do tal município e adicionar
+#rj.f <- merge(rj.f, rj@data, by.x = "id", by.y = "CD_GEOCMU")
+
+head(rj.f)
+
+
+# Categorização da variável Partos Normais (para aparecerna legenda)
+
+rj_2$partosnormaisCat <- cut(rj_2$PartosNormais, breaks = c(0, 10, 20, 30, 40, 50, 100),labels=c('0-10%', '10-20%', '20-30%', '30-40%', '40-50%', '+50%'), include.lowest=TRUE)
+
+
+
+
+
+#Aula 10
+
+##tenho que adicionar ao banco rj.f a variável categorizada
+
+names(rj_2)[1]<-c("id")
+
+rj.f<- merge(rj.f, rj_2, by = "id")
+
+
+head(rj.f)
+
+
+install.packages("RColorBrewer",dependencies = T)
+library(RColorBrewer)
+
+
+ggplot(rj.f, aes(rj.f$long, rj.f$lat, group = rj.f$group,fill=rj.f$partosnormaisCat))+geom_polygon(colour='yellow')+coord_equal()+ggtitle("Partos Normais")+theme(plot.title=element_text(size=rel(1), lineheight=0.9, face="bold", colour="blue")) +labs(x = "Longitude", y = "Latitude", fill = "% de partos normais")+scale_fill_manual(values=brewer.pal(9, 'Greens')[4:9])
+

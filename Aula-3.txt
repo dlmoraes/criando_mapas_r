@@ -1,0 +1,14 @@
+# Shapes com preenchimento e com pontos
+
+
+map("world","Brazil", fill=T, col="grey90")
+
+map(,,add=T) #adicionando proximidades
+
+map.axes(cex.axis=0.8) #eixos
+
+map.scale(ratio=F, cex=0.7)  #escalas
+map.scale(x=-48,y=-30,ratio=F, cex=0.7)  #escalas
+
+map.cities(country = "Brazil",minpop = 2000000,pch=19, cex=1.2)# pacote maps
+

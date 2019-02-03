@@ -1,0 +1,10 @@
+lat	long	nome	sexo	cliente	QuantComprada
+-1.3656741	-48.4163765	Tufa	Mas	Novo	10
+-1.3877229	-48.4344624	Mika	Fem	Novo	16
+-1.402134	-48.430006	Dinheiro	Mas	Novo	20
+-1.3739126	-48.4097712	Branco	Mas	Antigo	30
+-1.3564081	-48.426122	Pretinha	Fem	Antigo	36
+-1.3352995	-48.4280532	Arcana	Mas	Antigo	42
+-1.336283	-48.4437437	Pandora	Fem	Antigo	46
+-1.3707773	-48.4139497	Sansão	Mas	Antigo	55
+-1.3707773	-48.4139497	Pingo	Mas	Antigo	88

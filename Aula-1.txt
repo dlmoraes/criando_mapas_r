@@ -1,0 +1,37 @@
+
+#### SHAPES:      PACOTE MAPS 
+
+
+#Instalando o pacote 
+install.packages("maps",dependencies = T)
+
+# ativando o pacote 
+library(maps) 
+
+
+# margens: c(inferior, esquerda, superior, direita)
+par(mar=c(3,3,3,3))
+
+map("world",regions="CANADA")
+
+par(mar=c(1,1,1,1))
+map("world",regions="Brazil")
+
+par(mar=c(2,2,2,2))
+map("usa")	
+
+# para os estados unidos existem mais subdividões: Pais, state, county (condado)
+
+map('state', 'California') #estado da california
+
+map('county', 'California') #condados no estado da california
+
+map('county', 'new york') #condados
+
+
+#mais de uma região por vez
+par(mar=c(1,1,1,1))
+map('state', region = c('California', 'Nevada', 'Texas'))
+
+map('county', region = c('California', 'Nevada', 'Texas'))
+
